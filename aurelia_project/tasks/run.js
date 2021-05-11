@@ -1,5 +1,5 @@
 import { NPM } from 'aurelia-cli';
-import * as kill from 'tree-kill';
+import kill from 'tree-kill';
 import { platform } from '../aurelia.json';
 
 const npm =  new NPM();

@@ -1,10 +1,14 @@
 import { inject } from 'aurelia-dependency-injection';
 import { Project, ProjectItem, CLIOptions, UI } from 'aurelia-cli';
-import * as path from 'path';
+import path from 'path';
 
 @inject(Project, CLIOptions, UI)
 export default class ElementGenerator {
-  constructor(private project: Project, private options: CLIOptions, private ui: UI) { }
+  constructor(project, options, ui) {
+    this.project = project;
+    this.options = options;
+    this.ui = ui;
+  }
 
   async execute() {
     const name = await this.ui.ensureAnswer(
@@ -21,7 +25,7 @@ export default class ElementGenerator {
     let className = this.project.makeClassName(name);
 
     this.project.root.add(
-      ProjectItem.text(path.join(subFolders, fileName + '.ts'), this.generateJSSource(className)),
+      ProjectItem.text(path.join(subFolders, fileName + '.js'), this.generateJSSource(className)),
       ProjectItem.text(path.join(subFolders, fileName + '.html'), this.generateHTMLSource(className))
     );
 
@@ -31,8 +35,6 @@ export default class ElementGenerator {
 
   generateJSSource(className) {
     return `export class ${className} {
-  message: string;
-
   constructor() {
     this.message = 'Hello world';
   }

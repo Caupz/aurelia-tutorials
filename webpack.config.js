@@ -16,6 +16,7 @@ const when = (condition, config, negativeConfig) =>
 // primary config:
 const outDir = path.resolve(__dirname, project.platform.output);
 const srcDir = path.resolve(__dirname, 'src');
+const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '';
 
 const cssRules = [
@@ -30,7 +31,7 @@ const cssRules = [
 
 module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, host } = {}) => ({
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.js'],
     modules: [srcDir, 'node_modules'],
 
     alias: {
@@ -217,7 +218,10 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
         use: cssRules
       },
       { test: /\.html$/i, loader: 'html-loader' },
-      { test: /\.ts$/, loader: "ts-loader" },
+      {
+        test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir,
+        options: tests ? { sourceMap: 'inline', plugins: ['istanbul'] } : {}
+      },
       // embed small images and fonts as Data Urls and larger ones as files:
       { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
       { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2' } },
@@ -227,11 +231,6 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       { test: /environment\.json$/i, use: [
         {loader: "app-settings-loader", options: {env: production ? 'production' : 'development' }},
       ]},
-      ...when(tests, {
-        test: /\.[jt]s$/i, loader: 'istanbul-instrumenter-loader',
-        include: srcDir, exclude: [/\.(spec|test)\.[jt]s$/i],
-        enforce: 'post', options: { esModules: true },
-      })
     ]
   },
   plugins: [

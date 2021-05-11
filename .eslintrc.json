@@ -1,23 +1,16 @@
 {
   "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2019,
     "sourceType": "module",
-    "project": "./tsconfig.json",
-    "tsconfigRootDir": "."
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
   },
   "rules": {
     "no-unused-vars": 0,
-    "@typescript-eslint/no-unused-vars": 0,
     "no-prototype-builtins": 0,
     "no-console": 0,
     "getter-return": 0

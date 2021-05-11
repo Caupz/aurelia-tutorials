@@ -1,6 +1,6 @@
 import { runCLI } from '@jest/core';
-import * as path from 'path';
-import * as packageJson from '../../package.json';
+import path from 'path';
+import packageJson from '../../package.json';
 
 import { CLIOptions } from 'aurelia-cli';
 

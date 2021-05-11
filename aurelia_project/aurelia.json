@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "todo",
   "type": "project:application",
   "paths": {
     "root": "src",
@@ -10,8 +10,8 @@
     "bindingBehaviors": "resources/binding-behaviors"
   },
   "transpiler": {
-    "id": "typescript",
-    "fileExtension": ".ts"
+    "id": "babel",
+    "fileExtension": ".js"
   },
   "build": {
     "options": {
